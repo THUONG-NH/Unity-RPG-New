@@ -8,6 +8,7 @@ public abstract class EntityState
 
     protected Animator anim;
     protected Rigidbody2D rb;
+    protected PlayerInputSet input;
 
     public EntityState(StateMachine stateMachine, string animBoolName, Player player)
     {
@@ -17,6 +18,7 @@ public abstract class EntityState
 
         anim = player.Anim;
         rb = player.Rb;
+        input = player.Input;
     }
 
     public virtual void Enter()
@@ -26,11 +28,11 @@ public abstract class EntityState
 
     public virtual void Update()
     {
-
+        anim.SetFloat("yVelocity", rb.linearVelocityY);
     }
 
     public virtual void Exit()
     {
-        player.Anim.SetBool(animBoolName, false);
+        anim.SetBool(animBoolName, false);
     }
 }
