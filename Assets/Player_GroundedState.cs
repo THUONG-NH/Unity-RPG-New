@@ -10,6 +10,11 @@ public class Player_GroundedState : EntityState
     {
         base.Update();
 
+        if (rb.linearVelocityY < 0)
+        {
+            stateMachine.ChangeState(player.FallState);
+        }
+
         if (input.Player.Jump.WasPressedThisFrame())
         {
             stateMachine.ChangeState(player.JumpState);
