@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     public Animator Anim {  get; private set; }
     public Rigidbody2D Rb { get; private set; }
     public PlayerInputSet Input {  get; private set; }
+
     private StateMachine stateMachine;
 
     public Player_IdleState IdleState { get; private set; }
@@ -15,16 +15,21 @@ public class Player : MonoBehaviour
     public Player_FallState FallState { get; private set; }
     public Player_WallSlideState WallSlideState { get; private set; }
     public Player_WallJumpState WallJumpState { get; private set; }
-
+    public Player_DashState DashState { get; private set; }
 
     [Header("Movement Details")]
     public float moveSpeed;
     public float jumpForce = 5f;
     public Vector2 wallJumpForce;
+
     [Range(0f, 1f)]
     public float inAirMoveMultiplier = 0.7f;
     [Range(0f, 1f)]
     public float wallSlideSlowMultiplier = 0.7f;
+    [Space]
+    public float dashDuration = 0.25f;
+    public float dashSpeed = 20f;
+    
     private bool facingRight = true;
     public int FacingDir { get; private set; } = 1;
     public Vector2 MoveInput { get; private set; }
@@ -52,7 +57,8 @@ public class Player : MonoBehaviour
         FallState = new Player_FallState(stateMachine, "jumpFall", this);
         WallSlideState = new Player_WallSlideState(stateMachine, "wallSlide", this);
         WallJumpState = new Player_WallJumpState(stateMachine, "jumpFall", this);
-    }
+        DashState = new Player_DashState(stateMachine, "dash", this);
+     }
 
     private void OnEnable()
     {
