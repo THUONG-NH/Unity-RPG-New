@@ -1,14 +1,16 @@
+using System.Linq;
 using UnityEngine;
 
 public class Player_BasicAttackState : EntityState
 {
     private float attackVelocityTimer;
+    private float lastTimeAttacked;
 
+    private bool comboAttackQueued;
     private const int FirstComboIndex = 1;
     private int comboIndex = 1;
     private readonly int comboLimit = 3;
 
-    private float lastTimeAttacked;
 
     public Player_BasicAttackState(StateMachine stateMachine, string animBoolName, Player player) : base(stateMachine, animBoolName, player)
     {
@@ -21,6 +23,8 @@ public class Player_BasicAttackState : EntityState
     public override void Enter()
     {
         base.Enter();
+
+        comboAttackQueued = false;
 
         ResetComboIndexIfNeeded();
 
@@ -35,9 +39,22 @@ public class Player_BasicAttackState : EntityState
 
         HandleAttackVelocity();
 
+        if (input.Player.Attack.WasPressedThisFrame())
+        {
+            QueueNextAttack();
+        }
+
         if (triggerCalled)
         {
-            stateMachine.ChangeState(player.IdleState);
+            if (comboAttackQueued)
+            {
+                anim.SetBool(animBoolName, false);
+                player.EnterAttackStateWithDelay();
+            }
+            else
+            {
+                stateMachine.ChangeState(player.IdleState);
+            }
         }
     }
 
@@ -48,6 +65,14 @@ public class Player_BasicAttackState : EntityState
         comboIndex++;
 
         lastTimeAttacked = Time.time;
+    }
+
+    private void QueueNextAttack()
+    {
+        if (comboIndex < comboLimit)
+        {
+            comboAttackQueued = true;
+        }
     }
 
     private void HandleAttackVelocity()
