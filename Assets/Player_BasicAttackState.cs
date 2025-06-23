@@ -7,6 +7,7 @@ public class Player_BasicAttackState : EntityState
     private float lastTimeAttacked;
 
     private bool comboAttackQueued;
+    private int attackDir;
     private const int FirstComboIndex = 1;
     private int comboIndex = 1;
     private readonly int comboLimit = 3;
@@ -28,6 +29,8 @@ public class Player_BasicAttackState : EntityState
 
         ResetComboIndexIfNeeded();
 
+        attackDir = player.MoveInput.x != 0 ? ((int)player.MoveInput.x) : player.FacingDir;
+
         anim.SetInteger("basicAttackIndex", comboIndex);
 
         ApplyAttackVelocity();
@@ -44,6 +47,20 @@ public class Player_BasicAttackState : EntityState
             QueueNextAttack();
         }
 
+        HandleStateExit();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        comboIndex++;
+
+        lastTimeAttacked = Time.time;
+    }
+
+    private void HandleStateExit()
+    {
         if (triggerCalled)
         {
             if (comboAttackQueued)
@@ -56,15 +73,6 @@ public class Player_BasicAttackState : EntityState
                 stateMachine.ChangeState(player.IdleState);
             }
         }
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-
-        comboIndex++;
-
-        lastTimeAttacked = Time.time;
     }
 
     private void QueueNextAttack()
@@ -91,7 +99,7 @@ public class Player_BasicAttackState : EntityState
         Vector2 attackVelocity = player.attackVelocity[comboIndex - 1];
 
         attackVelocityTimer = player.attackVelocityDuration;
-        player.SetVelocity(attackVelocity.x * player.FacingDir, attackVelocity.y);
+        player.SetVelocity(attackVelocity.x * attackDir, attackVelocity.y);
     }
 
     private void ResetComboIndexIfNeeded()
