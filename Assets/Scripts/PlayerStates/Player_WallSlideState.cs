@@ -1,7 +1,7 @@
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class Player_WallSlideState : EntityState
+public class Player_WallSlideState : PlayerState
 {
     public Player_WallSlideState(StateMachine stateMachine, string animBoolName, Player player) : base(stateMachine, animBoolName, player)
     {

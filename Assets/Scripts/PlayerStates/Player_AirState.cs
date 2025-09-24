@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player_AirState : EntityState
+public class Player_AirState : PlayerState
 {
     public Player_AirState(StateMachine stateMachine, string animBoolName, Player player) : base(stateMachine, animBoolName, player)
     {
