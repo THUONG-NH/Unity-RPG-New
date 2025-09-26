@@ -87,3 +87,4 @@ public class Entity : MonoBehaviour
         Gizmos.DrawLine(secondaryWallCheck.position, secondaryWallCheck.position + new Vector3(wallCheckDistance * FacingDir, 0));
     }
 }
+ 
