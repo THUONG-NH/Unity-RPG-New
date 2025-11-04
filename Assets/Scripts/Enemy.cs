@@ -8,4 +8,6 @@ public class Enemy : Entity
     [Header("Movement Details")]
     public float idleTime = 2;
     public float moveSpeed = 1.4f;
+    [Range(0f, 2f)]
+    public float moveAnimSpeedMultiplier = 1;
 }
