@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 718286658}
   - component: {fileID: 718286661}
   - component: {fileID: 718286660}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1016,7 +1016,7 @@ GameObject:
   - component: {fileID: 1143318524}
   - component: {fileID: 1143318527}
   - component: {fileID: 1143318526}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1046,6 +1046,11 @@ MonoBehaviour:
   idleTime: 2
   moveSpeed: 1.4
   moveAnimSpeedMultiplier: 1
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 128
+  playerCheck: {fileID: 1143318525}
+  playerCheckDistance: 10
 --- !u!4 &1143318525
 Transform:
   m_ObjectHideFlags: 0
@@ -8287,6 +8292,7 @@ GameObject:
   - component: {fileID: 1502142467}
   - component: {fileID: 1502142469}
   - component: {fileID: 1502142468}
+  - component: {fileID: 1502142470}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -8386,6 +8392,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1502142470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502142466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5cdb1e8d3a4ba046b7f796c844111ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1616750245
 GameObject:
   m_ObjectHideFlags: 0
