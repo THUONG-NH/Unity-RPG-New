@@ -1,8 +1,10 @@
+using UnityEditor.ProjectWindowCallback;
 using UnityEngine;
 
 public class Enemy_BattleState : EnemyState
 {
     private Transform player;
+    private float lastTimeWasInBattle;
 
     public Enemy_BattleState(StateMachine stateMachine, string animBoolName, Enemy enemy) : base(stateMachine, animBoolName, enemy)
     {
@@ -14,7 +16,13 @@ public class Enemy_BattleState : EnemyState
 
         if (player == null)
         {
-            player = enemy.PlayerDetection().transform;
+            player = enemy.PlayerDetected().transform;
+        }
+
+        if (ShouldRetreat())
+        {
+            rb.linearVelocity = new Vector2(enemy.retreatVelocity.x * -DirectionToPlayer(), enemy.retreatVelocity.y);
+            enemy.HandleFlip(DirectionToPlayer());
         }
     }
 
@@ -22,7 +30,17 @@ public class Enemy_BattleState : EnemyState
     {
         base.Update();
 
-        if (WithinAttackRange())
+        if (enemy.PlayerDetected())
+        {
+            UpdateBattleTimer();
+        }
+
+        if (BattleTimeIsOver())
+        {
+            stateMachine.ChangeState(enemy.idleState);
+        }
+
+        if (WithinAttackRange() && enemy.PlayerDetected())
         {
             stateMachine.ChangeState(enemy.attackState);
         }
@@ -32,7 +50,13 @@ public class Enemy_BattleState : EnemyState
         }
     }
 
+    private void UpdateBattleTimer() => lastTimeWasInBattle = Time.time;
+
+    private bool BattleTimeIsOver() => Time.time > lastTimeWasInBattle + enemy.battleTimeDuration;
+
     private bool WithinAttackRange() => DistanceToPlayer() < enemy.attackDistance;
+
+    private bool ShouldRetreat() => DistanceToPlayer() < enemy.minRetreatDistance;
 
     private float DistanceToPlayer()
     {
