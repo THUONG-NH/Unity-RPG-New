@@ -43,9 +43,9 @@ public class Entity : MonoBehaviour
     }
 
  
-    public void CallAnimationTrigger()
+    public void CurrentStateAnimationTrigger()
     {
-        stateMachine.CurrentState.CallAnimationTrigger();
+        stateMachine.CurrentState.AnimationTrigger();
     }
 
     public void SetVelocity(float xVelocity, float yVelocity)

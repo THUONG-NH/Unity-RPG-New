@@ -20,15 +20,19 @@ public abstract class PlayerState : EntityState
     {
         base.Update();
 
-        anim.SetFloat("yVelocity", rb.linearVelocityY);
-
         if (input.Player.Dash.WasPressedThisFrame() && CanDash())
         {
             stateMachine.ChangeState(player.DashState);
         }
     }
-    
 
+    public override void UpdateAnimationParameters()
+    {
+        base.UpdateAnimationParameters();
+
+        anim.SetFloat("yVelocity", rb.linearVelocityY);
+    }
+    
     private bool CanDash()
     {
         if (player.WallDetected || stateMachine.CurrentState == player.DashState)
