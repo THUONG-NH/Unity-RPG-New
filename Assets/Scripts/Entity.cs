@@ -57,6 +57,8 @@ public class Entity : MonoBehaviour
 
     public void HandleFlip(float xVelocity)
     {
+        if (Mathf.Abs(xVelocity) < 0.05f) return;
+
         if (xVelocity < 0 && facingRight)
         {
             Flip();

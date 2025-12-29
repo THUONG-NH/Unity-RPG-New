@@ -27,7 +27,7 @@ public class Player_WallSlideState : PlayerState
         if (player.GroundDetected)
         {
             stateMachine.ChangeState(player.IdleState);
-
+         
             if (player.FacingDir != player.MoveInput.x)
             {
                 player.Flip();
