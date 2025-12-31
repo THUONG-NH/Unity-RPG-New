@@ -1,4 +1,7 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class Entity : MonoBehaviour
 {
@@ -22,6 +25,10 @@ public class Entity : MonoBehaviour
     public bool GroundDetected { get; private set; }
     public bool WallDetected { get; private set; }
 
+    // Condition variables
+    private bool isKnocked;
+    private Coroutine knockbackCo;
+
     protected virtual void Awake()
     {
         Anim = GetComponentInChildren<Animator>();
@@ -42,14 +49,33 @@ public class Entity : MonoBehaviour
         HandleCollisionDetection();
     }
 
- 
+
     public void CurrentStateAnimationTrigger()
     {
         stateMachine.CurrentState.AnimationTrigger();
     }
 
+    public void ReceiveKnockback(Vector2 knockback, float duration)
+    {
+        if (knockbackCo != null)
+            StopCoroutine(knockbackCo);
+
+        knockbackCo = StartCoroutine(KnockbackCo(knockback, duration));
+    }
+
+    private IEnumerator KnockbackCo(Vector2 knockback, float duration)
+    {
+        isKnocked = true;
+        Rb.linearVelocity = knockback;
+        yield return new WaitForSeconds(duration);
+        Rb.linearVelocity = Vector2.zero;
+        isKnocked = false;
+    }
+
     public void SetVelocity(float xVelocity, float yVelocity)
     {
+        if (isKnocked) return;
+
         Rb.linearVelocity = new Vector2(xVelocity, yVelocity);
 
         HandleFlip(xVelocity);
@@ -79,12 +105,12 @@ public class Entity : MonoBehaviour
     private void HandleCollisionDetection()
     {
         GroundDetected = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-        
+
         if (secondaryWallCheck != null)
         {
             WallDetected = Physics2D.Raycast(primaryWallCheck.position, Vector2.right * FacingDir, wallCheckDistance, whatIsGround)
                         && Physics2D.Raycast(secondaryWallCheck.position, Vector2.right * FacingDir, wallCheckDistance, whatIsGround);
-        } 
+        }
         else
         {
             WallDetected = Physics2D.Raycast(primaryWallCheck.position, Vector2.right * FacingDir, wallCheckDistance, whatIsGround);
@@ -95,11 +121,10 @@ public class Entity : MonoBehaviour
     {
         Gizmos.DrawLine(groundCheck.position, groundCheck.position + new Vector3(0, -groundCheckDistance));
         Gizmos.DrawLine(primaryWallCheck.position, primaryWallCheck.position + new Vector3(wallCheckDistance * FacingDir, 0));
-        
+
         if (secondaryWallCheck != null)
         {
             Gizmos.DrawLine(secondaryWallCheck.position, secondaryWallCheck.position + new Vector3(wallCheckDistance * FacingDir, 0));
         }
     }
 }
- 

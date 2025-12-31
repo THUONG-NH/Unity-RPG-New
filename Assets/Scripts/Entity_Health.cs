@@ -4,21 +4,34 @@ using UnityEngine;
 public class Entity_Health : MonoBehaviour
 {
     private Entity_VFX entityVfx;
+    private Entity entity;
 
     [SerializeField] protected float maxHp = 100;
     [SerializeField] protected bool isDead;
 
+    [Header("On Damage Knockback")]
+    [SerializeField] private Vector2 knockbackPower = new Vector2(1.5f, 2.5f);
+    [SerializeField] private Vector2 heavyKnockbackPower = new Vector2(7, 7);
+    [SerializeField] private float knockbackDuration = 0.2f;
+    [SerializeField] private float heavyKnockbackDuration = 0.5f;
+
+    [Header("On Heavy Damage")]
+    [SerializeField] private float heavyDamageThreshold = 0.3f; // The percentage of health you should consider as heavy damage.
+
     protected virtual void Awake()
     {
         entityVfx = GetComponent<Entity_VFX>();
+        entity = GetComponent<Entity>();
     }
 
     public virtual void TakeDamage(float damage, Transform damageDealer)
     {
         if (isDead) return;
 
-        entityVfx?.PlayOnDamageVfx();
+        Vector2 knockback = CalculateKnockback(damageDealer);
 
+        entity?.ReceiveKnockback(knockback, knockbackDuration);
+        entityVfx?.PlayOnDamageVfx();
         ReduceHp(damage);
     }
 
@@ -36,5 +49,13 @@ public class Entity_Health : MonoBehaviour
     {
         isDead = true;
         Debug.Log("Entity died!");
+    }
+
+    private Vector2 CalculateKnockback(Transform damageDealer)
+    {
+        int direction = transform.position.x > damageDealer.position.x ? 1 : -1;
+        Vector2 knockback = knockbackPower;
+        knockback.x *= direction;
+        return knockback;
     }
 }

@@ -656,8 +656,8 @@ GameObject:
   - component: {fileID: 718286661}
   - component: {fileID: 718286660}
   - component: {fileID: 718286662}
-  - component: {fileID: 718286663}
   - component: {fileID: 718286664}
+  - component: {fileID: 718286665}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -800,20 +800,6 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 256
---- !u!114 &718286663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718286657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8278f152ff68ac4687d91da48acc41d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 100
-  isDead: 0
 --- !u!114 &718286664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,6 +814,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onDamageMaterial: {fileID: 2100000, guid: cba6dfbff6fb23d4a84e3451407ebaeb, type: 2}
   onDamageVfxDuration: 0.2
+--- !u!114 &718286665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718286657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8278f152ff68ac4687d91da48acc41d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 100
+  isDead: 0
+  knockbackPower: {x: 1.5, y: 2.5}
+  heavyKnockbackPower: {x: 7, y: 7}
+  knockbackDuration: 0.2
+  heavyKnockbackDuration: 0.5
+  heavyDamageThreshold: 0.3
 --- !u!1 &914524325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,8 +1103,8 @@ GameObject:
   - component: {fileID: 1143318527}
   - component: {fileID: 1143318526}
   - component: {fileID: 1143318528}
-  - component: {fileID: 1143318529}
   - component: {fileID: 1143318530}
+  - component: {fileID: 1143318531}
   m_Layer: 8
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
@@ -1240,20 +1245,6 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 128
---- !u!114 &1143318529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1143318523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37a6786317579454a99abd3030353f90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 100
-  isDead: 0
 --- !u!114 &1143318530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1268,6 +1259,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onDamageMaterial: {fileID: 2100000, guid: cba6dfbff6fb23d4a84e3451407ebaeb, type: 2}
   onDamageVfxDuration: 0.15
+--- !u!114 &1143318531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143318523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a6786317579454a99abd3030353f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 100
+  isDead: 0
+  knockbackPower: {x: 1.5, y: 2.5}
+  heavyKnockbackPower: {x: 7, y: 7}
+  knockbackDuration: 0.2
+  heavyKnockbackDuration: 0.5
+  heavyDamageThreshold: 0.3
 --- !u!1 &1192361682
 GameObject:
   m_ObjectHideFlags: 0
