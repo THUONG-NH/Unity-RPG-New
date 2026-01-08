@@ -10,8 +10,13 @@ public class Enemy_DeadState : EnemyState
 
     public override void Enter()
     {
-        base.Enter();
+        anim.enabled = false;
 
-        Debug.LogWarning("Entered dead state!");
+        rb.gravityScale = 12;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 15);
+
+        enemy.GetComponent<Collider2D>().enabled = false;
+
+        stateMachine.SwitchOffStateMachine();
     }
 }
