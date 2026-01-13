@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Entity_VFX))]
 [RequireComponent(typeof(Entity))]
-public class Entity_Health : MonoBehaviour
+public class Entity_Health : MonoBehaviour , IDamageable
 {
     private Entity_VFX entityVfx;
     private Entity entity;
