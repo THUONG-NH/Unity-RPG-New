@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public class Player : Entity
@@ -17,6 +16,7 @@ public class Player : Entity
     public Player_BasicAttackState BasicAttackState { get; private set; }
     public Player_JumpAttackState JumpAttackState { get; private set; }
     public Player_DeadState DeadState { get; private set; }
+    public Player_CounterAttackState CounterAttackState { get; private set; }
 
     [Header("Attack Details")]
     public Vector2[] attackVelocity;
@@ -54,6 +54,7 @@ public class Player : Entity
         BasicAttackState = new Player_BasicAttackState(stateMachine, "basicAttack", this);
         JumpAttackState = new Player_JumpAttackState(stateMachine, "jumpAttack", this);
         DeadState = new Player_DeadState(stateMachine, "dead", this);
+        CounterAttackState = new Player_CounterAttackState(stateMachine, "counterAttack", this);
     }
 
     protected override void Start()

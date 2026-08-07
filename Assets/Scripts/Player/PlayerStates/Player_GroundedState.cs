@@ -24,5 +24,10 @@ public class Player_GroundedState : PlayerState
         {
             stateMachine.ChangeState(player.BasicAttackState);
         }
+
+        if (input.Player.CounterAttack.WasPressedThisFrame())
+        {
+            stateMachine.ChangeState(player.CounterAttackState);
+        }
     }
 }
