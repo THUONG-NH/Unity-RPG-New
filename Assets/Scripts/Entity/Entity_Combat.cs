@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Entity_Combat : MonoBehaviour
 {
-    private readonly Dictionary<Collider2D, IDamageable> cache = new();
+    private readonly Dictionary<(Collider2D col, System.Type type), object> cache = new();
 
     public float damage = 10;
 
@@ -12,26 +12,32 @@ public class Entity_Combat : MonoBehaviour
     [SerializeField] private float targetCheckRadius = 1;
     [SerializeField] private LayerMask whatIsTarget;
 
-    private IDamageable GetDamageable(Collider2D col)
+    protected T GetTargetInterface<T>(Collider2D col) where T : class
     {
-        if (!cache.TryGetValue(col, out var d)) 
+        if (col == null) return null;
+
+        var key = (col, typeof(T));
+
+        if (!cache.TryGetValue(key, out var cachedValue))
         {
-            col.TryGetComponent(out d);
-            cache[col] = d;
+            col.TryGetComponent<T>(out var target);
+            cachedValue = target;
+            cache[key] = cachedValue; // Cache cả khi target == null
         }
-        return d;
+
+        return cachedValue as T;
     }
 
     public void PerformAttack()
     {
         foreach (var col in GetDetectedColliders())
         {
-            var dmg = GetDamageable(col);
+            var dmg = GetTargetInterface<IDamageable>(col);
             dmg?.TakeDamage(damage, transform);
         }
     }
 
-    private Collider2D[] GetDetectedColliders()
+    protected Collider2D[] GetDetectedColliders()
     {
         return Physics2D.OverlapCircleAll(targetCheck.position, targetCheckRadius, whatIsTarget);
     }

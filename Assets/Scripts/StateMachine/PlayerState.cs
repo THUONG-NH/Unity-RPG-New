@@ -16,6 +16,13 @@ public abstract class PlayerState : EntityState
         input = player.Input;
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+
+        stateTimer = 1;
+    }
+
     public override void Update()
     {
         base.Update();
