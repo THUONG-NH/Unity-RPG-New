@@ -842,7 +842,7 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 256
-  counterDuration: 0.2
+  counterRecovery: 0.25
 --- !u!1 &914524325
 GameObject:
   m_ObjectHideFlags: 0

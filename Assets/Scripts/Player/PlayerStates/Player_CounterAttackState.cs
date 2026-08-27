@@ -14,20 +14,17 @@ public class Player_CounterAttackState : PlayerState
     {
         base.Enter();
 
-        counteredSomebody = false;
-        anim.SetBool("counterAttackPerformed", false);
-        stateTimer = combat.GetCounterDuration();
+        stateTimer = combat.GetCounterRecoveryDuration();
+        counteredSomebody = combat.CounterAttackPerformed();
+        
+        anim.SetBool("counterAttackPerformed", counteredSomebody);
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (combat.CounterAttackPerformed())
-        {
-            counteredSomebody = true;   
-            anim.SetBool("counterAttackPerformed", true);
-        }
+        player.SetVelocity(0, rb.linearVelocityY);
 
         if (triggerCalled) stateMachine.ChangeState(player.IdleState);
 

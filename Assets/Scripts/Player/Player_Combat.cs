@@ -1,27 +1,29 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Combat : Entity_Combat
 {
     [Header("Counter Acttack Details")]
-    [SerializeField] private float counterDuration;
+    [SerializeField] private float counterRecovery = .1f;
 
     public bool CounterAttackPerformed()
     {
-        bool hasCounteredSomebody = false;
+        bool hasPerformedCounter = false;
 
         foreach (var col in GetDetectedColliders())
         {
-            var ct = GetTargetInterface<ICounterable>(col);
-            if (ct != null)
+            var counterable = GetTargetInterface<ICounterable>(col);
+
+            if (counterable == null) continue;
+
+            if (counterable.CanBeCountered)
             {
-                ct.HandleCounter();
-                hasCounteredSomebody = true;
+                counterable.HandleCounter();
+                hasPerformedCounter = true;
             }
         }
 
-        return hasCounteredSomebody;
+        return hasPerformedCounter;
     }
 
-    public float GetCounterDuration() => counterDuration;
+    public float GetCounterRecoveryDuration() => counterRecovery;
 }
