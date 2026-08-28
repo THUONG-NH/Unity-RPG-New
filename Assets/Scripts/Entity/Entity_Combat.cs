@@ -4,13 +4,18 @@ using UnityEngine;
 public class Entity_Combat : MonoBehaviour
 {
     private readonly Dictionary<(Collider2D col, System.Type type), object> cache = new();
-
+    private Entity_VFX vfx;
     public float damage = 10;
 
     [Header("Target Detection")]
     [SerializeField] private Transform targetCheck;
     [SerializeField] private float targetCheckRadius = 1;
     [SerializeField] private LayerMask whatIsTarget;
+
+    private void Awake()
+    {
+        vfx = GetComponent<Entity_VFX>();
+    }
 
     protected T GetTargetInterface<T>(Collider2D col) where T : class
     {
@@ -33,7 +38,11 @@ public class Entity_Combat : MonoBehaviour
         foreach (var col in GetDetectedColliders())
         {
             var dmg = GetTargetInterface<IDamageable>(col);
-            dmg?.TakeDamage(damage, transform);
+            
+            if (dmg == null) continue;
+            
+            dmg.TakeDamage(damage, transform);
+            vfx.CreateOnHitVFX(col.transform);
         }
     }
 
