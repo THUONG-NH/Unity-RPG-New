@@ -11,9 +11,7 @@ public class Player_Combat : Entity_Combat
 
         foreach (var col in GetDetectedColliders())
         {
-            var counterable = GetTargetInterface<ICounterable>(col);
-
-            if (counterable == null) continue;
+            if (!col.TryGetComponent<ICounterable>(out var counterable)) continue;
 
             if (counterable.CanBeCountered)
             {
